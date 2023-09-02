@@ -22,9 +22,12 @@ const updateUser = async (req, res) => {
     throw new badRequestError("please fill all fields");
   }
 
-  const user = await User.findOne({ _id: req.user.user.userId });
+  const user = await User.findOne({ _id: req.user.user.userId }).select(
+    "-password"
+  );
   user.email = email;
   user.name = name;
+  await user.save();
   res.status(200).json({ user });
 };
 
