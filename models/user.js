@@ -1,31 +1,36 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
-const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, "please provide name"],
-    maxlength: 50,
-  },
-  email: {
-    type: String,
-    required: [true, "please provide an email"],
-    validate: {
-      validator: validator.isEmail,
-      message: "please provide valid email",
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, "please provide name"],
+      maxlength: 50,
+    },
+    email: {
+      type: String,
+      required: [true, "please provide an email"],
+      validate: {
+        validator: validator.isEmail,
+        message: "please provide valid email",
+      },
+    },
+    password: {
+      type: String,
+      required: [true, "please provide password"],
+      minlength: 8,
+    },
+    role: {
+      type: String,
+      enum: ["admin", "user"],
+      default: "user",
     },
   },
-  password: {
-    type: String,
-    required: [true, "please provide password"],
-    minlength: 8,
-  },
-  role: {
-    type: String,
-    enum: ["admin", "user"],
-    default: "user",
-  },
-});
+  {
+    collection: "users",
+  }
+);
 
 userSchema.pre("save", async function () {
   if (!this.isModified("password")) return;

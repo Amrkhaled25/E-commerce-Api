@@ -12,6 +12,7 @@ const connectDB = require("./db/connect");
 // Routes
 const authRoutes = require("./routes/authRoute");
 const userRoutes = require("./routes/userRoute");
+const productRoutes = require("./routes/productRoute");
 // Middlewares
 const notFound = require("./middleware/not-found");
 const errorHandler = require("./middleware/error-handler");
@@ -23,6 +24,7 @@ app.use(cookieParser(process.env.JWT_SECRET));
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/products", productRoutes);
 // if there is no route
 app.use(notFound);
 app.use(errorHandler);
