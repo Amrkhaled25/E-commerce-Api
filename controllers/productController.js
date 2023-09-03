@@ -1,7 +1,7 @@
 const Product = require("../models/products");
 const notFounderror = require("../errors/not-found");
 const badRequestError = require("../errors/bad-request");
-
+const path = require("path");
 const createProduct = async (req, res) => {
   req.body.user = req.user.user.userId;
   console.log(req.body);
@@ -47,7 +47,27 @@ const updateProduct = async (req, res) => {
 };
 
 const uploadImages = async (req, res) => {
-  res.send("upload images product controller");
+  if (!req.files) {
+    throw new notFounderror("please upload an image");
+  }
+  const productImages = req.files.image;
+  for (const productImage of productImages) {
+    if (!productImage.mimetype.startsWith("image")) {
+      throw new badRequestError("Please Upload Image");
+    }
+    const maxSize = 1024 * 1024;
+    if (productImage.size > maxSize) {
+      throw new badRequestError("Please upload image smaller than 1MB");
+    }
+
+    const imagePath = path.join(
+      __dirname,
+      "../public/images/" + `${productImage.name}`
+    );
+
+    await productImage.mv(imagePath);
+  }
+  res.status(200).json({ msg: "images uploaded successfully" });
 };
 
 module.exports = {

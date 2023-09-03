@@ -18,6 +18,10 @@ router
   .get(getAllProducts);
 
 router
+  .route("/uploadImages")
+  .post(authenticateUser, authorizePermissions("admin"), uploadImages);
+
+router
   .route("/:id")
   .get(getSingleProduct)
   .delete([authenticateUser, authorizePermissions("admin")], deleteProduct)

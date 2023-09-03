@@ -6,6 +6,7 @@ const app = express();
 
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const fileUpload = require("express-fileupload");
 //DataBase
 const connectDB = require("./db/connect");
 
@@ -21,6 +22,9 @@ app.use(cors());
 
 app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET));
+
+app.use(express.static("./public"));
+app.use(fileUpload());
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
