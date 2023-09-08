@@ -38,25 +38,14 @@ const productSchema = new mongoose.Schema(
       min: 0,
     },
     images: [String],
-    ratings: [
-      {
-        userId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "users",
-        },
-        rating: {
-          type: Number,
-          required: true,
-          min: 1,
-          max: 5,
-        },
-        review: String,
-        date: {
-          type: Date,
-          default: new Date(Date.now()),
-        },
-      },
-    ],
+    reviewsNumber: {
+      type: Number,
+      default: 0,
+    },
+    ratings: {
+      type: Number,
+      default: 0,
+    },
     user: {
       type: mongoose.Types.ObjectId,
       res: "user",
