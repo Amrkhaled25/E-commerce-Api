@@ -12,6 +12,7 @@ const register = async (req, res) => {
   }
   const isAdmin = (await User.countDocuments({})) === 0;
   if (isAdmin) req.body.role = "admin";
+  else req.body.role = "user";
   const user = await User.create(req.body);
   const tokenUser = createTokenUser(user);
   attachCookiesToResponse(res, { user: tokenUser });
