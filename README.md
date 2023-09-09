@@ -14,7 +14,7 @@ To get started with my API, follow these steps:
   - ``` npm install ```
 - Create your own MongoDB collections to store and manage your e-commerce data.
 ## Test Api
-- you can use postman to test this api for example : ``` https://ecommerce-l8bb.onrender.com/api/v1/register ```
+- you can use postman to test this api for example : ``` https://ecommerce-l8bb.onrender.com/api/v1/auth/register ```
 ## Finally 
 Once you've completed these steps, you'll be ready to harness the power of our E-Commerce API for your online store.
 
