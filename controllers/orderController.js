@@ -50,6 +50,38 @@ const createOrder = async (req, res) => {
   res.status(201).json(order);
 };
 
+const getOrder = async (req, res) => {
+  const { id: orderId } = req.params;
+  const order = await Orders.findOne({ _id: orderId });
+  if (!order) {
+    throw new notFounderror("no sunch order exist");
+  }
+  checkPermissions(order.user, req.user.user.userId);
+  res.status(200).json(order);
+};
+
+const getAllOrders = async (req, res) => {
+  const order = await Orders.find({});
+  if (!order) {
+    throw new notFounderror("no sunch order exist");
+  }
+  if (req.user.user.role != "admin") {
+    throw new badRequestError("unauthorised to get this route");
+  }
+  res.status(200).json(order);
+};
+
+const getUserOrders = async (req, res) => {
+  const order = await Orders.find({ user: req.user.user.userId });
+  if (!order) {
+    throw new notFounderror("no orders exist for this user");
+  }
+  res.status(200).json(order);
+};
+
 module.exports = {
   createOrder,
+  getOrder,
+  getAllOrders,
+  getUserOrders,
 };
