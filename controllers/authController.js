@@ -23,11 +23,11 @@ const login = async (req, res) => {
   const { email } = req.body;
   const user = await User.findOne({ email });
   if (!user) {
-    throw new BadRequestError("Please Create an account ");
+    throw new BadRequestError("please enter correct mail and password");
   }
   const passwordMatch = await user.comparePassword(req.body.password);
   if (!passwordMatch) {
-    throw new BadRequestError("Please Enter correct password");
+    throw new BadRequestError("please enter correct mail and password ");
   }
   const tokenUser = createTokenUser(user);
   attachCookiesToResponse(res, { user: tokenUser });

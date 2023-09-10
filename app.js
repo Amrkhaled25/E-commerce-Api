@@ -7,6 +7,10 @@ const app = express();
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
+const rateLimit = require("express-rate-limit");
+const helmet = require("helmet");
+const mongoSanitize = require("express-mongo-sanitize");
+const xss = require("xss-clean");
 //DataBase
 const connectDB = require("./db/connect");
 const stripe = require("stripe")(process.env.STRIPE_KEY);
@@ -26,6 +30,16 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET));
 
+app.set("trust proxy", 1);
+app.use(
+  rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 60,
+  })
+);
+app.use(mongoSanitize());
+app.use(helmet());
+app.use(xss());
 app.use(express.static("./public"));
 app.use(fileUpload());
 
